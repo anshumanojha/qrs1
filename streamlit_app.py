@@ -1,6 +1,6 @@
 import streamlit as st
 import qrcode
-from PIL import Image
+from PIL import Image, ImageDraw
 
 def generate_qr_code(url):
     if url:
@@ -12,12 +12,15 @@ def generate_qr_code(url):
         )
         qr.add_data(url)
         qr.make(fit=True)
-        qr_img = qr.make_image(fill_color="black", back_color="white")
         
-        # Convert the PIL Image to bytes
-        img_byte_array = io.BytesIO()
-        qr_img.save(img_byte_array, format="PNG")
-        return img_byte_array.getvalue()
+        # Create a blank white image to place the QR code on
+        qr_img = Image.new("RGB", (300, 300), "white")
+        draw = ImageDraw.Draw(qr_img)
+        
+        # Convert the QR code matrix to a Pillow Image
+        qr_img.paste(qr.make_image(fill_color="black", back_color="white"))
+        
+        return qr_img
 
 def main():
     st.title("QR Code Generator")
@@ -25,8 +28,8 @@ def main():
     user_url = st.text_input("Enter the URL:")
     
     if user_url:
-        qr_img_data = generate_qr_code(user_url)
-        st.image(qr_img_data, caption="QR Code", use_column_width=True, format="PNG")
+        qr_img = generate_qr_code(user_url)
+        st.image(qr_img, caption="QR Code", use_column_width=True, format="JPEG")
 
 if __name__ == "__main__":
     main()
