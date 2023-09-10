@@ -29,7 +29,7 @@ def main():
     
     if user_url:
         qr_img = generate_qr_code(user_url)
-        st.image(qr_img, caption="QR Code", use_column_width=True, format="JPEG")
+        st.image(qr_img, caption="QR Code", use_column_width=True, format="PNG")  
 
 if __name__ == "__main__":
     main()
