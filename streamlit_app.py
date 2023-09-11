@@ -31,15 +31,18 @@ def generate_qr_code_url(url):
 
         return qr_img
 
-def generate_qr_code_contact_info(contact_details):
-    if contact_details:
+def generate_qr_code_contact_info(contact_info):
+    if contact_info:
+        # Generate a vCard string
+        vcard = f"BEGIN:VCARD\nVERSION:3.0\nFN:{contact_info['Name']}\nEMAIL:{contact_info['Email']}\nTEL:{contact_info['Phone']}\nORG:{contact_info['Current Designation']}\nEND:VCARD"
+
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
             box_size=5,
             border=2,
         )
-        qr.add_data(contact_details)
+        qr.add_data(vcard)
         qr.make(fit=True)
 
         # Calculate the minimum size to fit the QR code without cutting off
@@ -92,19 +95,16 @@ def main():
             "Phone": phone,
             "Current Designation": designation,
         }
-        contact_details = "\n".join(f"{key}: {value}" for key, value in contact_info.items() if value)
-
-        if contact_details:
-            qr_img_contact_info = generate_qr_code_contact_info(contact_details)
-            st.image(qr_img_contact_info, caption="QR Code with Contact Info", use_column_width=False)
-            img_bytes_contact_info = io.BytesIO()
-            qr_img_contact_info.save(img_bytes_contact_info, format="PNG")
-            st.download_button(
-                label="Download QR Code (Contact Info)",
-                data=img_bytes_contact_info.getvalue(),
-                file_name="qr_code_contact_info.png",
-                mime="image/png",
-            )
+        qr_img_contact_info = generate_qr_code_contact_info(contact_info)
+        st.image(qr_img_contact_info, caption="QR Code with Contact Info", use_column_width=False)
+        img_bytes_contact_info = io.BytesIO()
+        qr_img_contact_info.save(img_bytes_contact_info, format="PNG")
+        st.download_button(
+            label="Download QR Code (Contact Info)",
+            data=img_bytes_contact_info.getvalue(),
+            file_name="qr_code_contact_info.png",
+            mime="image/png",
+        )
 
 if __name__ == "__main__":
     main()
