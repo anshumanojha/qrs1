@@ -14,12 +14,17 @@ def generate_qr_code_url(url):
         qr.add_data(url)
         qr.make(fit=True)
         
-        # Create a blank white image to place the QR code on
-        qr_img = Image.new("RGB", (200, 200), "white")
+        # Create a blank white image with a larger size to place the QR code on
+        qr_img = Image.new("RGB", (300, 300), "white")
         draw = ImageDraw.Draw(qr_img)
         
-        # Convert the QR code matrix to a Pillow Image
-        qr_img.paste(qr.make_image(fill_color="black", back_color="white"))
+        # Calculate the position to center the QR code
+        qr_size = qr_img.size[0]
+        qr_code_img = qr.make_image(fill_color="black", back_color="white")
+        position = ((qr_size - qr_code_img.size[0]) // 2, (qr_size - qr_code_img.size[1]) // 2)
+        
+        # Paste the QR code in the center
+        qr_img.paste(qr_code_img, position)
         
         return qr_img
 
@@ -34,12 +39,17 @@ def generate_qr_code_contact_info(contact_details):
         qr.add_data(contact_details)
         qr.make(fit=True)
         
-        # Create a blank white image to place the QR code on
-        qr_img = Image.new("RGB", (200, 200), "white")
+        # Create a blank white image with a larger size to place the QR code on
+        qr_img = Image.new("RGB", (300, 300), "white")
         draw = ImageDraw.Draw(qr_img)
         
-        # Convert the QR code matrix to a Pillow Image
-        qr_img.paste(qr.make_image(fill_color="black", back_color="white"))
+        # Calculate the position to center the QR code
+        qr_size = qr_img.size[0]
+        qr_code_img = qr.make_image(fill_color="black", back_color="white")
+        position = ((qr_size - qr_code_img.size[0]) // 2, (qr_size - qr_code_img.size[1]) // 2)
+        
+        # Paste the QR code in the center
+        qr_img.paste(qr_code_img, position)
         
         return qr_img
 
