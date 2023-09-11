@@ -14,8 +14,8 @@ def generate_qr_code_url(url):
         qr.add_data(url)
         qr.make(fit=True)
         
-        # Create a smaller blank white image to place the QR code on
-        qr_img = Image.new("RGB", (150, 150), "white")
+        # Create a blank white image to place the QR code on
+        qr_img = Image.new("RGB", (200, 200), "white")
         draw = ImageDraw.Draw(qr_img)
         
         # Convert the QR code matrix to a Pillow Image
@@ -34,8 +34,8 @@ def generate_qr_code_contact_info(contact_details):
         qr.add_data(contact_details)
         qr.make(fit=True)
         
-        # Create a smaller blank white image to place the QR code on
-        qr_img = Image.new("RGB", (150, 150), "white")
+        # Create a blank white image to place the QR code on
+        qr_img = Image.new("RGB", (200, 200), "white")
         draw = ImageDraw.Draw(qr_img)
         
         # Convert the QR code matrix to a Pillow Image
@@ -52,7 +52,7 @@ def main():
     
     if user_url:
         qr_img_url = generate_qr_code_url(user_url)
-        st.image(qr_img_url, caption="QR Code for URL", use_column_width=True)
+        st.image(qr_img_url, caption="QR Code for URL", use_column_width=False)
         img_bytes_url = io.BytesIO()
         qr_img_url.save(img_bytes_url, format="PNG")
         st.download_button(
@@ -80,7 +80,7 @@ def main():
         
         if contact_details:
             qr_img_contact_info = generate_qr_code_contact_info(contact_details)
-            st.image(qr_img_contact_info, caption="QR Code with Contact Info", use_column_width=True)
+            st.image(qr_img_contact_info, caption="QR Code with Contact Info", use_column_width=False)
             img_bytes_contact_info = io.BytesIO()
             qr_img_contact_info.save(img_bytes_contact_info, format="PNG")
             st.download_button(
