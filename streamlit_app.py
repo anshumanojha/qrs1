@@ -13,19 +13,22 @@ def generate_qr_code_url(url):
         )
         qr.add_data(url)
         qr.make(fit=True)
-        
-        # Create a blank white image with a larger size to place the QR code on
-        qr_img = Image.new("RGB", (300, 300), "white")
+
+        # Calculate the minimum size to fit the QR code without cutting off
+        qr_size = qr.modules_count
+        min_size = max(150, qr_size * 10)
+
+        # Create a blank white image with the calculated size
+        qr_img = Image.new("RGB", (min_size, min_size), "white")
         draw = ImageDraw.Draw(qr_img)
-        
+
         # Calculate the position to center the QR code
-        qr_size = qr_img.size[0]
         qr_code_img = qr.make_image(fill_color="black", back_color="white")
-        position = ((qr_size - qr_code_img.size[0]) // 2, (qr_size - qr_code_img.size[1]) // 2)
-        
+        position = ((min_size - qr_code_img.size[0]) // 2, (min_size - qr_code_img.size[1]) // 2)
+
         # Paste the QR code in the center
         qr_img.paste(qr_code_img, position)
-        
+
         return qr_img
 
 def generate_qr_code_contact_info(contact_details):
@@ -38,19 +41,22 @@ def generate_qr_code_contact_info(contact_details):
         )
         qr.add_data(contact_details)
         qr.make(fit=True)
-        
-        # Create a blank white image with a larger size to place the QR code on
-        qr_img = Image.new("RGB", (300, 300), "white")
+
+        # Calculate the minimum size to fit the QR code without cutting off
+        qr_size = qr.modules_count
+        min_size = max(150, qr_size * 10)
+
+        # Create a blank white image with the calculated size
+        qr_img = Image.new("RGB", (min_size, min_size), "white")
         draw = ImageDraw.Draw(qr_img)
-        
+
         # Calculate the position to center the QR code
-        qr_size = qr_img.size[0]
         qr_code_img = qr.make_image(fill_color="black", back_color="white")
-        position = ((qr_size - qr_code_img.size[0]) // 2, (qr_size - qr_code_img.size[1]) // 2)
-        
+        position = ((min_size - qr_code_img.size[0]) // 2, (min_size - qr_code_img.size[1]) // 2)
+
         # Paste the QR code in the center
         qr_img.paste(qr_code_img, position)
-        
+
         return qr_img
 
 def main():
@@ -59,7 +65,7 @@ def main():
     # Box for generating QR code for a URL
     st.header("Generate QR Code for a Desired URL")
     user_url = st.text_input("Enter the URL:")
-    
+
     if user_url:
         qr_img_url = generate_qr_code_url(user_url)
         st.image(qr_img_url, caption="QR Code for URL", use_column_width=False)
@@ -78,7 +84,7 @@ def main():
     email = st.text_input("Email:")
     phone = st.text_input("Phone:")
     designation = st.text_input("Current Designation:")
-    
+
     if st.button("Generate QR Code (Contact Info)") and (name or email or phone or designation):
         contact_info = {
             "Name": name,
@@ -87,7 +93,7 @@ def main():
             "Current Designation": designation,
         }
         contact_details = "\n".join(f"{key}: {value}" for key, value in contact_info.items() if value)
-        
+
         if contact_details:
             qr_img_contact_info = generate_qr_code_contact_info(contact_details)
             st.image(qr_img_contact_info, caption="QR Code with Contact Info", use_column_width=False)
