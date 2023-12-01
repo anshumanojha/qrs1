@@ -1,5 +1,5 @@
 import streamlit as st
-import re
+import sqlite3
 
 # Odd One Out Game Logic
 class OddOneOutGame:
@@ -62,27 +62,29 @@ def main():
     st.markdown("[LinkedIn Profile](https://www.linkedin.com/in/andrew)")
     st.markdown("[GitHub Profile](https://github.com/andrew)")
 
-    # Example of finding errors in SQL code (Basic syntax check)
-    st.header('Example: Finding Errors in SQL Code (Basic Syntax Check)')
+    # SQL Query Submission
+    st.header('SQL Query Submission')
     sql_code = st.text_area("Enter your SQL code:")
-
-    # Common SQL keywords to check
-    sql_keywords = ['SELECT', 'FROM', 'JOIN', 'WHERE', 'GROUP BY', 'ORDER BY']
-
-    # Check for the presence of SQL keywords
-    missing_keywords = [kw for kw in sql_keywords if kw not in sql_code.upper()]
-
-    if missing_keywords:
-        st.error("Syntax errors found in SQL code:")
-        for error in missing_keywords:
-            st.write(f"- Missing: {error}")
-    else:
-        st.success("No syntax errors found in SQL code. Looks good!")
 
     # Button to submit SQL query
     if st.button("Submit Query"):
-        # Perform actions when the submit button is clicked
-        st.write("Query submitted! Add your logic here.")
+        try:
+            # Connect to an in-memory SQLite database
+            conn = sqlite3.connect(':memory:')
+            cursor = conn.cursor()
+
+            # Execute the SQL query
+            cursor.execute(sql_code)
+
+            # Fetch and display the result
+            result = cursor.fetchall()
+            st.success("Query executed successfully!")
+            st.table(result)
+
+            # Close the database connection
+            conn.close()
+        except Exception as e:
+            st.error(f"Error executing SQL query: {e}")
 
 if __name__ == "__main__":
     main()
