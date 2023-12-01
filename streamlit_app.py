@@ -64,7 +64,7 @@ def main():
     st.markdown("[GitHub Profile](https://github.com/andrew)")
 
     # Text-based Excel Formula Suggestor
-    st.header('Text-based Excel Formula Suggestor')
+    st.header('Project-1-Text-based Excel Formula Suggestor')
     excel_query = st.text_input("Describe the operation you want (e.g., add two cells):")
 
     if st.button("Get Suggested Formula"):
@@ -92,7 +92,7 @@ def main():
             st.error(f"Error generating suggested formula: {e}")
 
     # SQL Query Submission
-    st.header('SQL Query Submission')
+    st.header('Project2-SQL syntax checker')
     sql_code = st.text_area("Enter your SQL code:")
 
     # Button to submit SQL query
