@@ -1,73 +1,113 @@
 import streamlit as st
-import qrcode
-from PIL import Image, ImageDraw
-import io
+import requests
+import pandas as pd
+import random
 
-# Unchanged functions for QR code generation
+# URL Shortener Function
+def get_smaller_urls(search_query):
+    url = "https://google.com/search?q=" + search_query
+    request_result = requests.get(url)
+    search_results = request_result.text
+    start_index = search_results.find("https://www.linkedin.com/in/")
+    end_index = search_results.find("&", start_index)
+    smaller_url = search_results[start_index:end_index]
+    return smaller_url
 
-def generate_qr_code_url(url):
-    qr = qrcode.QRCode(
-        version=1,
-        error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=5,
-        border=2,
-    )
-    qr.add_data(url)
-    qr.make(fit=True)
+# Odd One Out Game Logic
+class OddOneOutGame:
+    def __init__(self):
+        self.sets = [
+            ['Python', 'JavaScript', 'Java', 'C#'],
+            ['Frontend', 'Backend', 'Database', 'UI/UX'],
+            ['Git', 'Docker', 'AWS', 'Kubernetes']
+        ]
+        self.correct_answers = ['C#', 'UI/UX', 'AWS']
+        self.current_set = None
+        self.answer = None
 
-    qr_size = qr.modules_count
-    min_size = max(150, qr_size * 10)
+    def new_round(self):
+        self.current_set = random.choice(self.sets)
+        self.answer = None
 
-    qr_img = Image.new("RGB", (min_size, min_size), "white")
-    qr_code_img = qr.make_image(fill_color="black", back_color="white")
-    position = ((min_size - qr_code_img.size[0]) // 2, (min_size - qr_code_img.size[1]) // 2)
-    qr_img.paste(qr_code_img, position)
-
-    return qr_img
-
-def generate_experience_summary(company, role, summary):
-    experience_summary = f"Company: {company}\nRole: {role}\nSummary: {summary}"
-    return experience_summary
-
+# Streamlit App
 def main():
-    st.title("Andrew's Portfolio")
+    st.title("Andrew's Developer Portfolio with Odd One Out Game")
 
-    st.header("Portfolio Details")
-    full_name = st.text_input("Full Name:")
-    email = st.text_input("Email:")
-    phone = st.text_input("Phone:")
-    linkedin_profile = st.text_input("LinkedIn Profile:")
+    # Profile Picture
+    st.image("path/to/andrew_profile_pic.jpg", caption="Andrew's Profile Picture", use_column_width=True)
 
-    st.header("Generate QR Code for LinkedIn Profile")
-    if linkedin_profile:
-        qr_img_linkedin = generate_qr_code_url(linkedin_profile)
-        st.image(qr_img_linkedin, caption="QR Code for LinkedIn Profile", use_column_width=False)
-        img_bytes_linkedin = io.BytesIO()
-        qr_img_linkedin.save(img_bytes_linkedin, format="PNG")
-        st.download_button(
-            label="Download QR Code (LinkedIn)",
-            data=img_bytes_linkedin.getvalue(),
-            file_name="qr_code_linkedin.png",
-            mime="image/png",
-        )
+    # URL Shortener
+    st.header('URL Shortener')
+    search_query = st.text_input("Enter a search query:")
+    if st.button("Shorten URL"):
+        smaller_url = get_smaller_urls(search_query)
+        st.success(f"Shortened URL: {smaller_url}")
 
-    st.header("Experience Summary")
-    company = st.text_input("Company:")
-    role = st.text_input("Role:")
-    summary = st.text_area("Summary:")
-    
-    if st.button("Generate Experience Summary") and (company or role or summary):
-        experience_summary = generate_experience_summary(company, role, summary)
-        st.text(experience_summary)
+    # Odd One Out Game
+    game = OddOneOutGame()
 
-    st.header("Skills and Projects")
-    skills = st.text_area("Skills:")
-    projects = st.text_area("Related Projects:")
+    # Button to start a new round
+    if st.button("Start New Round - Odd One Out Game"):
+        game.new_round()
 
-    if st.button("Save Skills and Projects") and (skills or projects):
-        # You can save or display the skills and projects as needed
-        st.text(f"Skills: {skills}")
-        st.text(f"Related Projects: {projects}")
+    # Display the current set for Odd One Out Game
+    if game.current_set:
+        st.write("Which one is the odd one out?")
+        selected_option = st.radio("Select one:", game.current_set)
+
+        # Check user's answer for Odd One Out Game
+        game.answer = selected_option
+
+        if game.answer in game.correct_answers:
+            st.success("Correct! Well done! You can now view the portfolio.")
+        else:
+            st.error("Oops! That's not the odd one out. Try again!")
+
+    # Rest of your existing code for the portfolio display
+    st.title("Andrew's Developer Portfolio")
+    st.markdown(
+        "<p style='font-size: 20px; color: #555555;'>Software Developer | Experience: 2+ years</p>",
+        unsafe_allow_html=True
+    )
+    # Add links to LinkedIn and GitHub profiles
+    st.markdown("[LinkedIn Profile](https://www.linkedin.com/in/andrew)")
+    st.markdown("[GitHub Profile](https://github.com/andrew)")
+
+    # Create bar chart for tools data
+    tools_data = [9, 8, 7, 9]
+    tools_labels = ['Python', 'JavaScript', 'Git', 'Docker']
+    tools_chart = dict(zip(tools_labels, tools_data))
+
+    # Create line chart for technology data
+    technology_data = [8, 9, 7, 8, 9]
+    technology_labels = ['React', 'Node.js', 'Spring Boot', 'AWS', 'Databases']
+    technology_chart = dict(zip(technology_labels, technology_data))
+
+    # Create pie chart for skills data
+    skills_data = [60, 50, 70, 40, 55]
+    skills_labels = ['Web Development', 'API Integration', 'Microservices', 'Cloud Computing', 'Database Management']
+    skills_chart = dict(zip(skills_labels, skills_data))
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.header('Tools Known')
+        st.bar_chart(tools_chart, use_container_width=True)
+
+    with col2:
+        st.header('Technology Known')
+        st.line_chart(technology_chart, use_container_width=True)
+
+    with col3:
+        st.header('Skills Proficiency')
+        st.bar_chart(skills_chart, use_container_width=True)
+
+    st.header('Projects')
+    st.subheader('Project 1: E-commerce Website')
+    st.write("Description: Developed a scalable e-commerce website with payment gateway integration.")
+
+    st.subheader('Project 2: Chat Application')
+    st.write("Description: Implemented a real-time chat application using WebSocket technology.")
 
 if __name__ == "__main__":
     main()
