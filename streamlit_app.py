@@ -62,45 +62,57 @@ def main():
     st.markdown("[LinkedIn Profile](https://www.linkedin.com/in/andrew)")
     st.markdown("[GitHub Profile](https://github.com/andrew)")
 
-    # Skills and Tools
-    st.header('Skills and Tools Proficiency')
+    # Excel Formula Suggestor
+    st.header('Excel Formula Suggestor')
+    formula_type = st.selectbox("Select formula type:", ["ADD", "SUBTRACT", "MULTIPLY", "DIVIDE", "ROUND", "CEIL", "CONCATENATE", "VLOOKUP"])
 
-    # Create bar chart for tools data
-    tools_data = [9, 8, 7, 9]
-    tools_labels = ['Python', 'JavaScript', 'Git', 'Docker']
-    tools_chart = dict(zip(tools_labels, tools_data))
+    if formula_type == "ADD":
+        cell1 = st.text_input("Enter first cell:")
+        cell2 = st.text_input("Enter second cell:")
+        formula_output = f"= {cell1} + {cell2}"
+        st.success(f"Suggested Formula: {formula_output}")
 
-    # Create line chart for technology data
-    technology_data = [8, 9, 7, 8, 9]
-    technology_labels = ['React', 'Node.js', 'Spring Boot', 'AWS', 'Databases']
-    technology_chart = dict(zip(technology_labels, technology_data))
+    elif formula_type == "SUBTRACT":
+        cell1 = st.text_input("Enter first cell:")
+        cell2 = st.text_input("Enter second cell:")
+        formula_output = f"= {cell1} - {cell2}"
+        st.success(f"Suggested Formula: {formula_output}")
 
-    # Create pie chart for skills data
-    skills_data = [60, 50, 70, 40, 55]
-    skills_labels = ['Web Development', 'API Integration', 'Microservices', 'Cloud Computing', 'Database Management']
-    skills_chart = dict(zip(skills_labels, skills_data))
+    elif formula_type == "MULTIPLY":
+        cell1 = st.text_input("Enter first cell:")
+        cell2 = st.text_input("Enter second cell:")
+        formula_output = f"= {cell1} * {cell2}"
+        st.success(f"Suggested Formula: {formula_output}")
 
-    col1, col2, col3 = st.columns(3)
+    elif formula_type == "DIVIDE":
+        cell1 = st.text_input("Enter numerator:")
+        cell2 = st.text_input("Enter denominator:")
+        formula_output = f"= {cell1} / {cell2}"
+        st.success(f"Suggested Formula: {formula_output}")
 
-    with col1:
-        st.header('Tools Known')
-        st.bar_chart(tools_chart, use_container_width=True)
+    elif formula_type == "ROUND":
+        cell = st.text_input("Enter cell:")
+        digits = st.number_input("Enter the number of digits:")
+        formula_output = f"= ROUND({cell}, {digits})"
+        st.success(f"Suggested Formula: {formula_output}")
 
-    with col2:
-        st.header('Technology Known')
-        st.line_chart(technology_chart, use_container_width=True)
+    elif formula_type == "CEIL":
+        cell = st.text_input("Enter cell:")
+        formula_output = f"= CEIL({cell})"
+        st.success(f"Suggested Formula: {formula_output}")
 
-    with col3:
-        st.header('Skills Proficiency')
-        st.bar_chart(skills_chart, use_container_width=True)
+    elif formula_type == "CONCATENATE":
+        num_cells = st.number_input("Enter the number of cells to concatenate:")
+        cells = [st.text_input(f"Enter cell {i + 1}:") for i in range(num_cells)]
+        formula_output = "= CONCATENATE(" + ", ".join(cells) + ")"
+        st.success(f"Suggested Formula: {formula_output}")
 
-    # Projects
-    st.header('Projects')
-    st.subheader('Project 1: E-commerce Website')
-    st.write("Description: Developed a scalable e-commerce website with payment gateway integration.")
-
-    st.subheader('Project 2: Chat Application')
-    st.write("Description: Implemented a real-time chat application using WebSocket technology.")
+    elif formula_type == "VLOOKUP":
+        lookup_value = st.text_input("Enter lookup value:")
+        table_range = st.text_input("Enter table range:")
+        col_index = st.number_input("Enter column index:")
+        formula_output = f"= VLOOKUP({lookup_value}, {table_range}, {col_index}, FALSE)"
+        st.success(f"Suggested Formula: {formula_output}")
 
     # SQL Query Submission
     st.header('SQL Query Submission')
