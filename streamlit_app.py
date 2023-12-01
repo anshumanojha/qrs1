@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 import random
 import sqlite3
+import sqlfluff
 
 # Odd One Out Game Logic
 class OddOneOutGame:
@@ -106,12 +107,11 @@ def main():
     sql_code = st.text_area("Enter your SQL code:")
     
     if st.button("Find Errors"):
-        # Use a basic SQL check (you can replace this with your database connection logic)
+        # Use sqlfluff to check SQL syntax
         try:
-            conn = sqlite3.connect(':memory:')
-            conn.execute(sql_code)
+            sqlfluff.lint(sql_code)
             st.success("No syntax errors found in SQL code. Looks good!")
-        except Exception as e:
+        except sqlfluff.exceptions.SQLFluffError as e:
             st.error(f"Error found in SQL code: {e}")
 
 if __name__ == "__main__":
