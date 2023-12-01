@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import pandas as pd
 import random
-import sqlparse
+import sqlite3
 
 # Odd One Out Game Logic
 class OddOneOutGame:
@@ -106,9 +106,10 @@ def main():
     sql_code = st.text_area("Enter your SQL code:")
     
     if st.button("Find Errors"):
-        # Use sqlparse to check SQL syntax
+        # Use a basic SQL check (you can replace this with your database connection logic)
         try:
-            parsed = sqlparse.parse(sql_code)
+            conn = sqlite3.connect(':memory:')
+            conn.execute(sql_code)
             st.success("No syntax errors found in SQL code. Looks good!")
         except Exception as e:
             st.error(f"Error found in SQL code: {e}")
