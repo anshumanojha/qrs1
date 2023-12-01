@@ -83,8 +83,12 @@ def main():
 
             # Close the database connection
             conn.close()
-        except Exception as e:
-            st.error(f"Error executing SQL query: {e}")
+        except sqlite3.Error as e:
+            error_message = str(e)
+            if "no such table" in error_message.lower():
+                st.warning("Ignoring table-related errors. Focus on syntax and symbols.")
+            else:
+                st.error(f"Error executing SQL query: {error_message}")
 
 if __name__ == "__main__":
     main()
