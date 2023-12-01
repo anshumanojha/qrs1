@@ -22,10 +22,10 @@ class OddOneOutGame:
 # Streamlit App
 def main():
     # Customizing the background color to dark green
-    bg_color = "#006400"  # Dark Green
+    bg_color = '#006400' # Dark Green
     st.markdown(f"""<style>
         .reportview-container {{
-            background-color: {'#006400'};
+            background-color: {bg_color};
         }}
         </style>
     """, unsafe_allow_html=True)
