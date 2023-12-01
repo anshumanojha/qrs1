@@ -25,7 +25,7 @@ def main():
     bg_color = "#006400"  # Dark Green
     st.markdown(f"""<style>
         .reportview-container {{
-            background-color: {bg_color};
+            background-color: {#006400};
         }}
         </style>
     """, unsafe_allow_html=True)
