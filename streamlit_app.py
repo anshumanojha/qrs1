@@ -1,4 +1,5 @@
 import streamlit as st
+import re
 
 # Odd One Out Game Logic
 class OddOneOutGame:
@@ -66,14 +67,14 @@ def main():
     sql_code = st.text_area("Enter your SQL code:")
 
     # Common SQL keywords to check
-    sql_keywords = ['SELECT', 'FROM', 'AS', 'JOIN']
+    sql_keywords = ['SELECT', 'FROM', 'JOIN', 'WHERE', 'GROUP BY', 'ORDER BY']
 
     # Check for the presence of SQL keywords
-    errors = [kw for kw in sql_keywords if kw not in sql_code.upper()]
+    missing_keywords = [kw for kw in sql_keywords if kw not in sql_code.upper()]
 
-    if errors:
+    if missing_keywords:
         st.error("Syntax errors found in SQL code:")
-        for error in errors:
+        for error in missing_keywords:
             st.write(f"- Missing: {error}")
     else:
         st.success("No syntax errors found in SQL code. Looks good!")
