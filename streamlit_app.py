@@ -32,18 +32,22 @@ def generate_experience_summary(company, role, summary):
 def main():
     st.title("Andrew's Portfolio")
 
-    st.header("Generate QR Code for a Desired URL")
-    user_url = st.text_input("Enter the URL:")
+    st.header("Portfolio Details")
+    full_name = st.text_input("Full Name:")
+    email = st.text_input("Email:")
+    phone = st.text_input("Phone:")
+    linkedin_profile = st.text_input("LinkedIn Profile:")
 
-    if user_url:
-        qr_img_url = generate_qr_code_url(user_url)
-        st.image(qr_img_url, caption="QR Code for URL", use_column_width=False)
-        img_bytes_url = io.BytesIO()
-        qr_img_url.save(img_bytes_url, format="PNG")
+    st.header("Generate QR Code for LinkedIn Profile")
+    if linkedin_profile:
+        qr_img_linkedin = generate_qr_code_url(linkedin_profile)
+        st.image(qr_img_linkedin, caption="QR Code for LinkedIn Profile", use_column_width=False)
+        img_bytes_linkedin = io.BytesIO()
+        qr_img_linkedin.save(img_bytes_linkedin, format="PNG")
         st.download_button(
-            label="Download QR Code (URL)",
-            data=img_bytes_url.getvalue(),
-            file_name="qr_code_url.png",
+            label="Download QR Code (LinkedIn)",
+            data=img_bytes_linkedin.getvalue(),
+            file_name="qr_code_linkedin.png",
             mime="image/png",
         )
 
