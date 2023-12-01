@@ -21,6 +21,15 @@ class OddOneOutGame:
 
 # Streamlit App
 def main():
+    # Customizing the background color to dark green
+    bg_color = "#006400"  # Dark Green
+    st.markdown(f"""<style>
+        .reportview-container {{
+            background-color: {bg_color};
+        }}
+        </style>
+    """, unsafe_allow_html=True)
+
     st.title("Andrew's Developer Portfolio with Odd One Out Game")
 
     # Odd One Out Game
@@ -46,7 +55,7 @@ def main():
     # Rest of your existing code for the portfolio display
     st.title("Andrew's Developer Portfolio")
     st.markdown(
-        "<p style='font-size: 20px; color: #555555;'>Software Developer | Experience: 2+ years</p>",
+        "<p style='font-size: 20px; color: #FFFFFF;'>Software Developer | Experience: 2+ years</p>",
         unsafe_allow_html=True
     )
     # Add links to LinkedIn and GitHub profiles
