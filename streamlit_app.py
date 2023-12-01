@@ -1,5 +1,6 @@
 import streamlit as st
 import sqlite3
+import re
 
 # Odd One Out Game Logic
 class OddOneOutGame:
@@ -62,57 +63,33 @@ def main():
     st.markdown("[LinkedIn Profile](https://www.linkedin.com/in/andrew)")
     st.markdown("[GitHub Profile](https://github.com/andrew)")
 
-    # Excel Formula Suggestor
-    st.header('Excel Formula Suggestor')
-    formula_type = st.selectbox("Select formula type:", ["ADD", "SUBTRACT", "MULTIPLY", "DIVIDE", "ROUND", "CEIL", "CONCATENATE", "VLOOKUP"])
+    # Text-based Excel Formula Suggestor
+    st.header('Text-based Excel Formula Suggestor')
+    excel_query = st.text_input("Describe the operation you want (e.g., add two cells):")
 
-    if formula_type == "ADD":
-        cell1 = st.text_input("Enter first cell:")
-        cell2 = st.text_input("Enter second cell:")
-        formula_output = f"= {cell1} + {cell2}"
-        st.success(f"Suggested Formula: {formula_output}")
+    if st.button("Get Suggested Formula"):
+        try:
+            # Extract keywords from the user's input
+            keywords = re.findall(r'\b\w+\b', excel_query.lower())
 
-    elif formula_type == "SUBTRACT":
-        cell1 = st.text_input("Enter first cell:")
-        cell2 = st.text_input("Enter second cell:")
-        formula_output = f"= {cell1} - {cell2}"
-        st.success(f"Suggested Formula: {formula_output}")
+            # Map keywords to Excel functions
+            excel_functions = {
+                'add': '+',
+                'subtract': '-',
+                'multiply': '*',
+                'divide': '/',
+                'round': 'ROUND',
+                'ceil': 'CEIL',
+                'concatenate': 'CONCATENATE',
+                'vlookup': 'VLOOKUP'
+            }
 
-    elif formula_type == "MULTIPLY":
-        cell1 = st.text_input("Enter first cell:")
-        cell2 = st.text_input("Enter second cell:")
-        formula_output = f"= {cell1} * {cell2}"
-        st.success(f"Suggested Formula: {formula_output}")
+            # Generate the suggested Excel formula
+            suggested_formula = ' '.join([excel_functions[keyword] if keyword in excel_functions else keyword for keyword in keywords])
+            st.success(f"Suggested Formula: {suggested_formula}")
 
-    elif formula_type == "DIVIDE":
-        cell1 = st.text_input("Enter numerator:")
-        cell2 = st.text_input("Enter denominator:")
-        formula_output = f"= {cell1} / {cell2}"
-        st.success(f"Suggested Formula: {formula_output}")
-
-    elif formula_type == "ROUND":
-        cell = st.text_input("Enter cell:")
-        digits = st.number_input("Enter the number of digits:")
-        formula_output = f"= ROUND({cell}, {digits})"
-        st.success(f"Suggested Formula: {formula_output}")
-
-    elif formula_type == "CEIL":
-        cell = st.text_input("Enter cell:")
-        formula_output = f"= CEIL({cell})"
-        st.success(f"Suggested Formula: {formula_output}")
-
-    elif formula_type == "CONCATENATE":
-        num_cells = st.number_input("Enter the number of cells to concatenate:")
-        cells = [st.text_input(f"Enter cell {i + 1}:") for i in range(num_cells)]
-        formula_output = "= CONCATENATE(" + ", ".join(cells) + ")"
-        st.success(f"Suggested Formula: {formula_output}")
-
-    elif formula_type == "VLOOKUP":
-        lookup_value = st.text_input("Enter lookup value:")
-        table_range = st.text_input("Enter table range:")
-        col_index = st.number_input("Enter column index:")
-        formula_output = f"= VLOOKUP({lookup_value}, {table_range}, {col_index}, FALSE)"
-        st.success(f"Suggested Formula: {formula_output}")
+        except Exception as e:
+            st.error(f"Error generating suggested formula: {e}")
 
     # SQL Query Submission
     st.header('SQL Query Submission')
