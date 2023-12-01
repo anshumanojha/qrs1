@@ -2,70 +2,63 @@ import streamlit as st
 import qrcode
 from PIL import Image, ImageDraw
 import io
+import phonenumbers
 
 def generate_qr_code_url(url):
-    if url:
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=5,
-            border=2,
-        )
-        qr.add_data(url)
-        qr.make(fit=True)
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=5,
+        border=2,
+    )
+    qr.add_data(url)
+    qr.make(fit=True)
 
-        # Calculate the minimum size to fit the QR code without cutting off
-        qr_size = qr.modules_count
-        min_size = max(150, qr_size * 10)
+    qr_size = qr.modules_count
+    min_size = max(150, qr_size * 10)
 
-        # Create a blank white image with the calculated size
-        qr_img = Image.new("RGB", (min_size, min_size), "white")
-        draw = ImageDraw.Draw(qr_img)
+    qr_img = Image.new("RGB", (min_size, min_size), "white")
+    qr_code_img = qr.make_image(fill_color="black", back_color="white")
+    position = ((min_size - qr_code_img.size[0]) // 2, (min_size - qr_code_img.size[1]) // 2)
+    qr_img.paste(qr_code_img, position)
 
-        # Calculate the position to center the QR code
-        qr_code_img = qr.make_image(fill_color="black", back_color="white")
-        position = ((min_size - qr_code_img.size[0]) // 2, (min_size - qr_code_img.size[1]) // 2)
-
-        # Paste the QR code in the center
-        qr_img.paste(qr_code_img, position)
-
-        return qr_img
+    return qr_img
 
 def generate_qr_code_contact_info(contact_info):
-    if contact_info:
-        # Generate a vCard string
-        vcard = f"BEGIN:VCARD\nVERSION:3.0\nFN:{contact_info['Name']}\nEMAIL:{contact_info['Email']}\nTEL:{contact_info['Phone']}\nORG:{contact_info['Current Designation']}\nEND:VCARD"
+    vcard = f"BEGIN:VCARD\nVERSION:3.0\nFN:{contact_info['Name']}\nEMAIL:{contact_info['Email']}\nTEL:{contact_info['Phone']}\nORG:{contact_info['Current Designation']}\nEND:VCARD"
 
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=5,
-            border=2,
-        )
-        qr.add_data(vcard)
-        qr.make(fit=True)
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=5,
+        border=2,
+    )
+    qr.add_data(vcard)
+    qr.make(fit=True)
 
-        # Calculate the minimum size to fit the QR code without cutting off
-        qr_size = qr.modules_count
-        min_size = max(150, qr_size * 10)
+    qr_size = qr.modules_count
+    min_size = max(150, qr_size * 10)
 
-        # Create a blank white image with the calculated size
-        qr_img = Image.new("RGB", (min_size, min_size), "white")
-        draw = ImageDraw.Draw(qr_img)
+    qr_img = Image.new("RGB", (min_size, min_size), "white")
+    qr_code_img = qr.make_image(fill_color="black", back_color="white")
+    position = ((min_size - qr_code_img.size[0]) // 2, (min_size - qr_code_img.size[1]) // 2)
+    qr_img.paste(qr_code_img, position)
 
-        # Calculate the position to center the QR code
-        qr_code_img = qr.make_image(fill_color="black", back_color="white")
-        position = ((min_size - qr_code_img.size[0]) // 2, (min_size - qr_code_img.size[1]) // 2)
+    return qr_img
 
-        # Paste the QR code in the center
-        qr_img.paste(qr_code_img, position)
-
-        return qr_img
+def generate_whatsapp_link(phone_number, message):
+    try:
+        parsed_number = phonenumbers.parse(phone_number, "US")  # Change the region code as needed
+        if phonenumbers.is_valid_number(parsed_number):
+            phone_number = phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.E164)
+            return f"https://wa.me/{phone_number}?text={message}"
+    except phonenumbers.NumberFormatException:
+        pass
+    return None
 
 def main():
     st.title("QR Code Generator")
 
-    # Box for generating QR code for a URL
     st.header("Generate QR Code for a Desired URL")
     user_url = st.text_input("Enter the URL:")
 
@@ -81,7 +74,6 @@ def main():
             mime="image/png",
         )
 
-    # Box for generating QR code for personal information
     st.header("Generate QR Code for Contact Information")
     name = st.text_input("Name:")
     email = st.text_input("Email:")
@@ -105,6 +97,17 @@ def main():
             file_name="qr_code_contact_info.png",
             mime="image/png",
         )
+
+    st.header("Send WhatsApp Message")
+    whatsapp_phone_number = st.text_input("Enter WhatsApp Phone Number (with country code, e.g., +123456789):")
+    whatsapp_message = st.text_input("Enter WhatsApp Message:")
+
+    if st.button("Generate WhatsApp Message") and (whatsapp_phone_number and whatsapp_message):
+        whatsapp_link = generate_whatsapp_link(whatsapp_phone_number, whatsapp_message)
+        if whatsapp_link:
+            st.write(f"WhatsApp Link: [{whatsapp_link}]({whatsapp_link})")
+        else:
+            st.warning("Invalid phone number. Please enter a valid WhatsApp phone number.")
 
 if __name__ == "__main__":
     main()
