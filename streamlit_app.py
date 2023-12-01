@@ -74,12 +74,15 @@ def main():
             cursor = conn.cursor()
 
             # Execute the SQL query
-            cursor.execute(sql_code)
+            result = cursor.execute(sql_code)
 
             # Fetch and display the result
-            result = cursor.fetchall()
-            st.success("Query executed successfully!")
-            st.table(result)
+            if result is not None:
+                result = result.fetchall()
+                st.success("Query executed successfully!")
+                st.table(result)
+            else:
+                st.warning("Query executed successfully, but no results to display.")
 
             # Close the database connection
             conn.close()
