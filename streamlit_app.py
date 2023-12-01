@@ -2,8 +2,10 @@ import streamlit as st
 import qrcode
 from PIL import Image, ImageDraw
 import io
+import webbrowser  # Added for opening WhatsApp link
 import phonenumbers
 
+# Unchanged function
 def generate_qr_code_url(url):
     qr = qrcode.QRCode(
         version=1,
@@ -24,6 +26,7 @@ def generate_qr_code_url(url):
 
     return qr_img
 
+# Unchanged function
 def generate_qr_code_contact_info(contact_info):
     vcard = f"BEGIN:VCARD\nVERSION:3.0\nFN:{contact_info['Name']}\nEMAIL:{contact_info['Email']}\nTEL:{contact_info['Phone']}\nORG:{contact_info['Current Designation']}\nEND:VCARD"
 
@@ -46,6 +49,7 @@ def generate_qr_code_contact_info(contact_info):
 
     return qr_img
 
+# Unchanged function
 def generate_whatsapp_link(phone_number, message):
     try:
         parsed_number = phonenumbers.parse(phone_number, "US")  # Change the region code as needed
@@ -58,6 +62,8 @@ def generate_whatsapp_link(phone_number, message):
 
 def main():
     st.title("QR Code Generator")
+
+    # ... (unchanged)
 
     st.header("Generate QR Code for a Desired URL")
     user_url = st.text_input("Enter the URL:")
@@ -105,7 +111,7 @@ def main():
     if st.button("Generate WhatsApp Message") and (whatsapp_phone_number and whatsapp_message):
         whatsapp_link = generate_whatsapp_link(whatsapp_phone_number, whatsapp_message)
         if whatsapp_link:
-            st.write(f"WhatsApp Link: [{whatsapp_link}]({whatsapp_link})")
+            st.markdown(f"Click [here]({whatsapp_link}) to open WhatsApp and send the message.")
         else:
             st.warning("Invalid phone number. Please enter a valid WhatsApp phone number.")
 
