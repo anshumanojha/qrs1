@@ -61,21 +61,22 @@ def main():
     st.markdown("[LinkedIn Profile](https://www.linkedin.com/in/andrew)")
     st.markdown("[GitHub Profile](https://github.com/andrew)")
 
-    # Example of finding errors in SQL code without sqlparse
-    st.header('Example: Finding Errors in SQL Code (Basic)')
+    # Example of finding errors in SQL code (Basic syntax check)
+    st.header('Example: Finding Errors in SQL Code (Basic Syntax Check)')
     sql_code = st.text_area("Enter your SQL code:")
 
-    if st.button("Find Errors (Basic)"):
-        # Check for common SQL keywords
-        common_keywords = ['SELECT', 'FROM', 'WHERE', 'JOIN', 'LEFT', 'RIGHT', 'INNER', 'OUTER', 'GROUP BY', 'ORDER BY', 'LIMIT']
-        errors = [kw for kw in common_keywords if kw not in sql_code.upper()]
+    # Common SQL keywords to check
+    sql_keywords = ['SELECT', 'FROM', 'AS', 'JOIN']
 
-        if errors:
-            st.error("Syntax errors found in SQL code:")
-            for error in errors:
-                st.write(f"- Missing: {error}")
-        else:
-            st.success("No syntax errors found in SQL code. Looks good!")
+    # Check for the presence of SQL keywords
+    errors = [kw for kw in sql_keywords if kw not in sql_code.upper()]
+
+    if errors:
+        st.error("Syntax errors found in SQL code:")
+        for error in errors:
+            st.write(f"- Missing: {error}")
+    else:
+        st.success("No syntax errors found in SQL code. Looks good!")
 
 if __name__ == "__main__":
     main()
