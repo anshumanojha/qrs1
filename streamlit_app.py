@@ -3,16 +3,6 @@ import requests
 import pandas as pd
 import random
 
-# URL Shortener Function
-def get_smaller_urls(search_query):
-    url = "https://google.com/search?q=" + search_query
-    request_result = requests.get(url)
-    search_results = request_result.text
-    start_index = search_results.find("https://www.linkedin.com/in/")
-    end_index = search_results.find("&", start_index)
-    smaller_url = search_results[start_index:end_index]
-    return smaller_url
-
 # Odd One Out Game Logic
 class OddOneOutGame:
     def __init__(self):
@@ -32,16 +22,6 @@ class OddOneOutGame:
 # Streamlit App
 def main():
     st.title("Andrew's Developer Portfolio with Odd One Out Game")
-
-    # Profile Picture
-    st.image("path/to/andrew_profile_pic.jpg", caption="Andrew's Profile Picture", use_column_width=True)
-
-    # URL Shortener
-    st.header('URL Shortener')
-    search_query = st.text_input("Enter a search query:")
-    if st.button("Shorten URL"):
-        smaller_url = get_smaller_urls(search_query)
-        st.success(f"Shortened URL: {smaller_url}")
 
     # Odd One Out Game
     game = OddOneOutGame()
