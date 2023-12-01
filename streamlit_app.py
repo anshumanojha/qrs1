@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import pandas as pd
 import random
+import sqlparse
 
 # Odd One Out Game Logic
 class OddOneOutGame:
@@ -105,12 +106,12 @@ def main():
     sql_code = st.text_area("Enter your SQL code:")
     
     if st.button("Find Errors"):
-        # Replace this part with your actual logic for finding errors in SQL code
-        # For now, let's assume any code containing the word 'error' is incorrect
-        if 'error' in sql_code.lower():
-            st.error("Error found in SQL code. Please review and correct.")
-        else:
-            st.success("No errors found in SQL code. Looks good!")
+        # Use sqlparse to check SQL syntax
+        try:
+            parsed = sqlparse.parse(sql_code)
+            st.success("No syntax errors found in SQL code. Looks good!")
+        except Exception as e:
+            st.error(f"Error found in SQL code: {e}")
 
 if __name__ == "__main__":
     main()
