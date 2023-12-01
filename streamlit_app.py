@@ -79,5 +79,10 @@ def main():
     else:
         st.success("No syntax errors found in SQL code. Looks good!")
 
+    # Button to submit SQL query
+    if st.button("Submit Query"):
+        # Perform actions when the submit button is clicked
+        st.write("Query submitted! Add your logic here.")
+
 if __name__ == "__main__":
     main()
