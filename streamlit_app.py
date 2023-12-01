@@ -1,9 +1,4 @@
 import streamlit as st
-import requests
-import pandas as pd
-import random
-import sqlite3
-import sqlfluff
 
 # Odd One Out Game Logic
 class OddOneOutGame:
@@ -18,7 +13,7 @@ class OddOneOutGame:
         self.answer = None
 
     def new_round(self):
-        self.current_set = random.choice(self.sets)
+        self.current_set = self.sets.pop(0) if self.sets else None
         self.answer = None
 
 # Streamlit App
@@ -66,53 +61,21 @@ def main():
     st.markdown("[LinkedIn Profile](https://www.linkedin.com/in/andrew)")
     st.markdown("[GitHub Profile](https://github.com/andrew)")
 
-    # Create bar chart for tools data
-    tools_data = [9, 8, 7, 9]
-    tools_labels = ['Python', 'JavaScript', 'Git', 'Docker']
-    tools_chart = dict(zip(tools_labels, tools_data))
-
-    # Create line chart for technology data
-    technology_data = [8, 9, 7, 8, 9]
-    technology_labels = ['React', 'Node.js', 'Spring Boot', 'AWS', 'Databases']
-    technology_chart = dict(zip(technology_labels, technology_data))
-
-    # Create pie chart for skills data
-    skills_data = [60, 50, 70, 40, 55]
-    skills_labels = ['Web Development', 'API Integration', 'Microservices', 'Cloud Computing', 'Database Management']
-    skills_chart = dict(zip(skills_labels, skills_data))
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.header('Tools Known')
-        st.bar_chart(tools_chart, use_container_width=True)
-
-    with col2:
-        st.header('Technology Known')
-        st.line_chart(technology_chart, use_container_width=True)
-
-    with col3:
-        st.header('Skills Proficiency')
-        st.bar_chart(skills_chart, use_container_width=True)
-
-    st.header('Projects')
-    st.subheader('Project 1: E-commerce Website')
-    st.write("Description: Developed a scalable e-commerce website with payment gateway integration.")
-
-    st.subheader('Project 2: Chat Application')
-    st.write("Description: Implemented a real-time chat application using WebSocket technology.")
-
-    # Example of finding errors in SQL code
-    st.header('Example: Finding Errors in SQL Code')
+    # Example of finding errors in SQL code without sqlparse
+    st.header('Example: Finding Errors in SQL Code (Basic)')
     sql_code = st.text_area("Enter your SQL code:")
-    
-    if st.button("Find Errors"):
-        # Use sqlfluff to check SQL syntax
-        try:
-            sqlfluff.lint(sql_code)
+
+    if st.button("Find Errors (Basic)"):
+        # Check for common SQL keywords
+        common_keywords = ['SELECT', 'FROM', 'WHERE', 'JOIN', 'LEFT', 'RIGHT', 'INNER', 'OUTER', 'GROUP BY', 'ORDER BY', 'LIMIT']
+        errors = [kw for kw in common_keywords if kw not in sql_code.upper()]
+
+        if errors:
+            st.error("Syntax errors found in SQL code:")
+            for error in errors:
+                st.write(f"- Missing: {error}")
+        else:
             st.success("No syntax errors found in SQL code. Looks good!")
-        except sqlfluff.exceptions.SQLFluffError as e:
-            st.error(f"Error found in SQL code: {e}")
 
 if __name__ == "__main__":
     main()
