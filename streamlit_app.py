@@ -52,7 +52,7 @@ def main():
         else:
             st.error("Oops! That's not the odd one out. Try again!")
 
-    # Rest of your existing code for the portfolio display
+    # Portfolio Details
     st.title("Andrew's Developer Portfolio")
     st.markdown(
         "<p style='font-size: 20px;'>Software Developer | Experience: 2+ years</p>",
@@ -61,6 +61,46 @@ def main():
     # Add links to LinkedIn and GitHub profiles
     st.markdown("[LinkedIn Profile](https://www.linkedin.com/in/andrew)")
     st.markdown("[GitHub Profile](https://github.com/andrew)")
+
+    # Skills and Tools
+    st.header('Skills and Tools Proficiency')
+
+    # Create bar chart for tools data
+    tools_data = [9, 8, 7, 9]
+    tools_labels = ['Python', 'JavaScript', 'Git', 'Docker']
+    tools_chart = dict(zip(tools_labels, tools_data))
+
+    # Create line chart for technology data
+    technology_data = [8, 9, 7, 8, 9]
+    technology_labels = ['React', 'Node.js', 'Spring Boot', 'AWS', 'Databases']
+    technology_chart = dict(zip(technology_labels, technology_data))
+
+    # Create pie chart for skills data
+    skills_data = [60, 50, 70, 40, 55]
+    skills_labels = ['Web Development', 'API Integration', 'Microservices', 'Cloud Computing', 'Database Management']
+    skills_chart = dict(zip(skills_labels, skills_data))
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.header('Tools Known')
+        st.bar_chart(tools_chart, use_container_width=True)
+
+    with col2:
+        st.header('Technology Known')
+        st.line_chart(technology_chart, use_container_width=True)
+
+    with col3:
+        st.header('Skills Proficiency')
+        st.bar_chart(skills_chart, use_container_width=True)
+
+    # Projects
+    st.header('Projects')
+    st.subheader('Project 1: E-commerce Website')
+    st.write("Description: Developed a scalable e-commerce website with payment gateway integration.")
+
+    st.subheader('Project 2: Chat Application')
+    st.write("Description: Implemented a real-time chat application using WebSocket technology.")
 
     # SQL Query Submission
     st.header('SQL Query Submission')
