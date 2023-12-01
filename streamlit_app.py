@@ -22,13 +22,8 @@ class OddOneOutGame:
 # Streamlit App
 def main():
     # Customizing the background color to dark green
-    bg_color = '#006400' # Dark Green
-    st.markdown(f"""<style>
-        .reportview-container {{
-            background-color: {bg_color};
-        }}
-        </style>
-    """, unsafe_allow_html=True)
+    bg_color = '#006400'  # Dark Green
+    st.set_page_config(page_title="Andrew's Developer Portfolio", page_icon=":rocket:", layout="wide", initial_sidebar_state="expanded", background_color=bg_color)
 
     st.title("Andrew's Developer Portfolio with Odd One Out Game")
 
