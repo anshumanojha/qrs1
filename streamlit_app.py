@@ -56,6 +56,14 @@ def main():
     # Portfolio Details
     st.title("Andrew's Developer Portfolio")
     st.markdown(
+        "<p style='font-size: 20px;'>Passionate and skilled software developer with a strong foundation in full-stack development, seeking a challenging and dynamic role to contribute technical expertise and creative problem-solving skills. Dedicated to staying current with emerging technologies and continuously improving development practices.</p>",
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        "<p style='font-size: 20px;'>Experienced developer with a comprehensive understanding of software engineering principles and a proven track record of delivering high-quality applications. Proficient in a range of programming languages, frameworks, and development methodologies. Excellent collaboration and communication skills, coupled with a commitment to meeting project deadlines and exceeding client expectations.</p>",
+        unsafe_allow_html=True
+    )
+    st.markdown(
         "<p style='font-size: 20px;'>Software Developer | Experience: 2+ years</p>",
         unsafe_allow_html=True
     )
