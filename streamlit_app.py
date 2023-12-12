@@ -67,6 +67,49 @@ def main():
         "<p style='font-size: 20px;'>Software Developer | Experience: 2+ years</p>",
         unsafe_allow_html=True
     )
+
+    # Skills and Tools
+    st.header('Skills and Tools')
+    st.subheader('Programming Languages:')
+    st.markdown("Python, JavaScript, Java, C#")
+
+    st.subheader('Web Technologies:')
+    st.markdown("HTML, CSS, React.js")
+
+    st.subheader('Frameworks and Libraries:')
+    st.markdown("Spring Boot, Express.js")
+
+    st.subheader('Database:')
+    st.markdown("MySQL, PostgreSQL, MongoDB")
+
+    st.subheader('Version Control:')
+    st.markdown("Git")
+
+    st.subheader('Containerization:')
+    st.markdown("Docker")
+
+    st.subheader('Cloud Services:')
+    st.markdown("AWS")
+
+    st.subheader('CI/CD:')
+    st.markdown("Jenkins")
+
+    st.subheader('Web Design:')
+    st.markdown("Responsive Design")
+
+    st.subheader('Methodologies:')
+    st.markdown("Agile/Scrum")
+
+    st.subheader('Testing:')
+    st.markdown("Test-Driven Development (TDD)")
+
+    st.subheader('Other:')
+    st.markdown("RESTful API development")
+
+    # Developer-specific Skills
+    st.subheader('Developer-Specific Skills:')
+    st.markdown("Flutter, React Native, Node.js")
+
     # Add links to LinkedIn and GitHub profiles
     st.markdown("[LinkedIn Profile](https://www.linkedin.com/in/andrew)")
     st.markdown("[GitHub Profile](https://github.com/andrew)")
