@@ -1,118 +1,161 @@
 import streamlit as st
-import re
 from reportlab.pdfgen import canvas
-import os
-import time
+from reportlab.lib.pagesizes import letter
+from io import BytesIO
 
-# Resume Generator
-class ResumeGenerator:
-    def __init__(self):
-        self.details = {}
+# Function to generate PDF
+def generate_pdf():
+    buffer = BytesIO()
 
-    def collect_details(self, name, email, phone, education, experience, skills, current_education, current_work):
-        self.details['Name'] = name
-        self.details['Email'] = email
-        self.details['Phone'] = phone
-        self.details['Education'] = education
-        self.details['Experience'] = experience
-        self.details['Skills'] = skills
-        self.details['CurrentEducation'] = current_education
-        self.details['CurrentWork'] = current_work
+    # Create a PDF object
+    pdf = canvas.Canvas(buffer, pagesize=letter)
+    pdf.setFont("Helvetica", 8)  # Change the font and size as needed
 
-    def generate_pdf(self):
-        pdf_filename = f"{self.details['Name']}_Resume.pdf"
-        pdf_filepath = os.path.join(os.path.dirname(__file__), pdf_filename)
+    # Add borders to the PDF
+    page_width, page_height = letter
+    pdf.line(0, page_height, page_width, page_height)  # Top border
+    pdf.line(0, page_height, 0, 0)                     # Left border
+    pdf.line(0, 0, page_width, 0)                      # Bottom border
+    pdf.line(page_width, 0, page_width, page_height)   # Right border
 
-        # Create a PDF document
-        pdf_canvas = canvas.Canvas(pdf_filepath)
+    # Set up the PDF content with left alignment
+    pdf.drawString(20, page_height - 20, ">>>This resume was generated entirely in Python. For full source code, view my portfolio.")
+    pdf.drawString(20, page_height - 40, "Anshuman Ojha's Resume")
+    pdf.line(0, page_height - 45, page_width, page_height - 45)  # Top border for header
 
-        # Add content to the PDF
-        pdf_canvas.setFont("Helvetica-Bold", 14)
-        pdf_canvas.drawString(100, 800, f"Resume for {self.details['Name']}")
-        pdf_canvas.setFont("Helvetica", 12)
+    # Personal Information
+    pdf.drawString(20, page_height - 70, "Personal Information:")
+    pdf.drawString(20, page_height - 90, "Location: Bangalore")
+    pdf.drawString(20, page_height - 110, "Name: Anshuman")
+    pdf.drawString(20, page_height - 130, "Designation: Finops Analyst")
+    pdf.drawString(20, page_height - 150, "Contact: 877743144")
+    pdf.drawString(20, page_height - 170, "Email: anshumanojha94@gmail.com")
 
-        # Contact Information
-        pdf_canvas.drawString(100, 780, f"Email: {self.details['Email']} | Phone: {self.details['Phone']}")
+    # Work Experience
+    pdf.drawString(20, page_height - 210, "Work Experience:")
+    pdf.drawString(20, page_height - 230, "Finops(Revenue&Recon Analyst) - Freo")
+    pdf.drawString(40, page_height - 250, "Duration: Dec 2020 - Present")
+    pdf.drawString(40, page_height - 270, "Description:")
+    pdf.drawString(60, page_height - 290, "- MIS")
+    pdf.drawString(60, page_height - 310, "- Revenue automation")
+    pdf.drawString(60, page_height - 330, "- Partner onboarding")
+    pdf.drawString(60, page_height - 350, "- Made dashboards to check repayment")
+    pdf.drawString(60, page_height - 370, "- Day-to-day repayment recon")
+    pdf.drawString(60, page_height - 390, "- Solving payments disputes")
+    pdf.drawString(60, page_height - 410, "- Development and verification of monthly partner invoices")
+    pdf.drawString(60, page_height - 430, "- Handling Data required for partners and vendors")
+    pdf.drawString(60, page_height - 450, "- Data verification and analysis")
+    pdf.drawString(60, page_height - 470, "- Data correction")
 
-        # Education
-        pdf_canvas.setFont("Helvetica-Bold", 12)
-        pdf_canvas.drawString(100, 760, "Education:")
-        pdf_canvas.setFont("Helvetica", 12)
-        pdf_canvas.drawString(120, 740, f"School: {self.details['Education']['School']}")
-        pdf_canvas.drawString(120, 720, f"Years: {self.details['Education']['StartYear']} - {self.details['Education']['EndYear']}")
-        if self.details['CurrentEducation']:
-            pdf_canvas.drawString(120, 700, "Currently pursuing")
+    pdf.drawString(20, page_height - 510, "Associate(Operations) - Freo")
+    pdf.drawString(40, page_height - 530, "Duration: Dec 2019 - Nov 2020")
+    pdf.drawString(40, page_height - 550, "Description:")
+    # Add relevant details about the role
 
-        # Experience
-        pdf_canvas.setFont("Helvetica-Bold", 12)
-        pdf_canvas.drawString(100, 670, "Experience:")
-        pdf_canvas.setFont("Helvetica", 12)
-        pdf_canvas.drawString(120, 650, f"Company: {self.details['Experience']['Company']}")
-        pdf_canvas.drawString(120, 630, f"Years: {self.details['Experience']['StartYear']} - {self.details['Experience']['EndYear']}")
-        if self.details['CurrentWork']:
-            pdf_canvas.drawString(120, 610, "Currently working here")
+    # Projects
+    pdf.drawString(20, page_height - 590, "Projects:")
+    pdf.drawString(40, page_height - 610, "Data Science Certification Lead - May 2020")
+    pdf.drawString(60, page_height - 630, "Link: [GitHub - Anshuman Ojha](https://github.com/anshumanojha)")
 
-        # Skills
-        pdf_canvas.setFont("Helvetica-Bold", 12)
-        pdf_canvas.drawString(100, 580, "Skills:")
-        pdf_canvas.setFont("Helvetica", 12)
-        pdf_canvas.drawString(120, 560, self.details['Skills'])
+    # Certifications
+    pdf.drawString(20, page_height - 670, "Certifications:")
+    pdf.drawString(40, page_height - 690, "Data Science Certification:")
+    pdf.drawString(60, page_height - 710, "Certified by IBM in association with Coursera")
+    pdf.drawString(60, page_height - 730, "Link: [IBM Data Science Certification](https://www.coursera.org/account/accomplishments/specialization/certificate/YBQ7NCKANHJ9)")
 
-        # Save the PDF
-        pdf_canvas.save()
+    pdf.drawString(40, page_height - 750, "Additional Certifications:")
+    pdf.drawString(60, page_height - 770, "Python for Data Science and AI Development:")
+    pdf.drawString(60, page_height - 790, "Lead")
+    pdf.drawString(60, page_height - 810, "Link: [Coursera Certification](https://www.coursera.org/account/accomplishments/certificate/EYQS7XR5JQGV)")
 
-        return pdf_filepath
+    pdf.drawString(60, page_height - 830, "Databases and SQL with Python:")
+    pdf.drawString(60, page_height - 850, "Lead")
+    pdf.drawString(60, page_height - 870, "Link: [Coursera Certification](https://www.coursera.org/account/accomplishments/certificate/YWQBBWNA4CHX)")
 
-# Streamlit App
-def main():
-    # ... (previous code)
+    pdf.drawString(60, page_height - 890, "Data Visualization with Python:")
+    pdf.drawString(60, page_height - 910, "Lead")
+    pdf.drawString(60, page_height - 930, "Link: [Coursera Certification](https://www.coursera.org/account/accomplishments/certificate/PHKLT6LDUU3V)")
 
-    # Project 3 - Resume Generator
-    st.header('Project 3 - Resume Generator')
+    pdf.save()
 
-    # Collect user details
-    name = st.text_input("Full Name:")
-    email = st.text_input("Email:")
-    phone = st.text_input("Phone:")
+    # Set up download button
+    st.download_button(
+        "Download PDF",
+        buffer.getvalue(),
+        file_name="Anshuman_Ojha_Resume.pdf",
+        key="pdf-download",
+    )
 
-    # Education Details
-    st.subheader('Education Details')
-    school = st.text_input("School:")
-    start_year_edu = st.text_input("Start Year:")
-    end_year_edu = st.text_input("End Year:")
-    current_education = st.checkbox("Currently pursuing this education")
+# Set page layout
+st.set_page_config(
+    page_title="Anshuman Ojha's Resume",
+    page_icon=":clipboard:",
+    layout="wide",
+)
 
-    # Experience Details
-    st.subheader('Experience Details')
-    company = st.text_input("Company:")
-    start_year_exp = st.text_input("Start Year:")
-    end_year_exp = st.text_input("End Year:")
-    current_work = st.checkbox("Currently working here")
+# Anshuman's Resume
+st.title("Anshuman Ojha's Resume")
 
-    # Skills
-    st.subheader('Skills')
-    skills = st.text_area("Skills:")
+# Generate PDF button at the top-right corner
+if st.button("Generate PDF", key="generate-pdf-btn", help="Generate and download PDF"):
+    generate_pdf()
 
-    # Resume Generator
-    resume_generator = ResumeGenerator()
+# Personal Information
+st.header("Personal Information")
 
-    if st.button("Generate Resume (PDF)"):
-        resume_generator.collect_details(
-            name, email, phone,
-            {'School': school, 'StartYear': start_year_edu, 'EndYear': end_year_edu},
-            {'Company': company, 'StartYear': start_year_exp, 'EndYear': end_year_exp},
-            skills, current_education, current_work
-        )
-        pdf_filepath = resume_generator.generate_pdf()
+# Location Input
+location = st.write("Location:", "Bangalore")
 
-        # Provide a download button for the generated PDF
-        st.download_button(
-            label="Download Resume (PDF)",
-            data=open(pdf_filepath, "rb").read(),
-            file_name=f"{name}_Resume.pdf",
-        )
+# Display other personal information
+st.write("Name: Anshuman")
+st.write("Designation: Finops Analyst")
+st.write("Contact: 877743144")
+st.write("Email: anshumanojha94@gmail.com")
 
-    # Rest of the code remains the same
+# Work Experience
+st.header("Work Experience")
 
-if __name__ == "__main__":
-    main()
+# Finops(Revenue&Recon Analyst) - Freo
+st.subheader("Finops(Revenue&Recon Analyst) - Freo")
+st.write("Duration: Dec 2020 - Present")
+st.write("Description:")
+st.write("- MIS")
+st.write("- Revenue automation")
+st.write("- Partner onboarding")
+st.write("- Made dashboards to check repayment")
+st.write("- Day-to-day repayment recon")
+st.write("- Solving payments disputes")
+st.write("- Development and verification of monthly partner invoices")
+st.write("- Handling Data required for partners and vendors")
+st.write("- Data verification and analysis")
+st.write("- Data correction")
+
+# Associate(operations) - Freo
+st.subheader("Associate(Operations) - Freo")
+st.write("Duration: Dec 2019 - Nov 2020")
+st.write("Description:")
+# Add relevant details about the role
+
+# Projects
+st.header("Projects")
+st.subheader("Data Science Certification Lead - May 2020")
+st.write("Link: [GitHub - Anshuman Ojha](https://github.com/anshumanojha)")
+
+# Certifications
+st.header("Certifications")
+st.write("Data Science Certification:")
+st.write("Certified by IBM in association with Coursera")
+st.write("Link: [IBM Data Science Certification](https://www.coursera.org/account/accomplishments/specialization/certificate/YBQ7NCKANHJ9)")
+
+# Additional Certifications
+st.write("Python for Data Science and AI Development:")
+st.write("Lead")
+st.write("Link: [Coursera Certification](https://www.coursera.org/account/accomplishments/certificate/EYQS7XR5JQGV)")
+
+st.write("Databases and SQL with Python:")
+st.write("Lead")
+st.write("Link: [Coursera Certification](https://www.coursera.org/account/accomplishments/certificate/YWQBBWNA4CHX)")
+
+st.write("Data Visualization with Python:")
+st.write("Lead")
+st.write("Link: [Coursera Certification](https://www.coursera.org/account/accomplishments/certificate/PHKLT6LDUU3V)")
