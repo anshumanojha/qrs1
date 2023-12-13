@@ -1,5 +1,4 @@
 import streamlit as st
-import sqlite3
 import re
 from reportlab.pdfgen import canvas
 import os
@@ -106,12 +105,11 @@ def main():
         )
         pdf_filepath = resume_generator.generate_pdf()
 
-        # Provide a download button for the generated PDF with a dynamic key
+        # Provide a download button for the generated PDF
         st.download_button(
             label="Download Resume (PDF)",
             data=open(pdf_filepath, "rb").read(),
             file_name=f"{name}_Resume.pdf",
-            key=f"download_resume_button_{int(time.time())}"
         )
 
     # Rest of the code remains the same
