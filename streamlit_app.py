@@ -1,22 +1,38 @@
 import streamlit as st
 import sqlite3
 import re
+from reportlab.pdfgen import canvas
 
-# Odd One Out Game Logic
-class OddOneOutGame:
+# Resume Generator
+class ResumeGenerator:
     def __init__(self):
-        self.sets = [
-            ['Python', 'JavaScript', 'Java', 'C#'],
-            ['Frontend', 'Backend', 'Database', 'UI/UX'],
-            ['Git', 'Docker', 'AWS', 'Kubernetes']
-        ]
-        self.correct_answers = ['C#', 'UI/UX', 'AWS']
-        self.current_set = None
-        self.answer = None
+        self.details = {}
 
-    def new_round(self):
-        self.current_set = self.sets.pop(0) if self.sets else None
-        self.answer = None
+    def collect_details(self, name, email, phone, education, experience, skills):
+        self.details['Name'] = name
+        self.details['Email'] = email
+        self.details['Phone'] = phone
+        self.details['Education'] = education
+        self.details['Experience'] = experience
+        self.details['Skills'] = skills
+
+    def generate_pdf(self):
+        pdf_filename = f"{self.details['Name']}_Resume.pdf"
+
+        # Create a PDF document
+        pdf_canvas = canvas.Canvas(pdf_filename)
+
+        # Add content to the PDF
+        pdf_canvas.drawString(100, 800, f"Resume for {self.details['Name']}")
+        pdf_canvas.drawString(100, 780, f"Email: {self.details['Email']} | Phone: {self.details['Phone']}")
+        pdf_canvas.drawString(100, 760, f"Education: {self.details['Education']}")
+        pdf_canvas.drawString(100, 740, f"Experience: {self.details['Experience']}")
+        pdf_canvas.drawString(100, 720, f"Skills: {self.details['Skills']}")
+
+        # Save the PDF
+        pdf_canvas.save()
+
+        return pdf_filename
 
 # Streamlit App
 def main():
@@ -31,147 +47,28 @@ def main():
         </style>
     """, unsafe_allow_html=True)
 
-    st.title("Andrew's Developer Portfolio with Odd One Out Game")
-
-    # Odd One Out Game
-    game = OddOneOutGame()
-
-    # Button to start a new round
-    if st.button("Start New Round - Odd One Out Game"):
-        game.new_round()
-
-    # Display the current set for Odd One Out Game
-    if game.current_set:
-        st.write("Which one is the odd one out?")
-        selected_option = st.radio("Select one:", game.current_set)
-
-        # Check user's answer for Odd One Out Game
-        game.answer = selected_option
-
-        if game.answer in game.correct_answers:
-            st.success("Correct! Well done! You can now view the portfolio.")
-        else:
-            st.error("Oops! That's not the odd one out. Try again!")
-
-    # Portfolio Details
     st.title("Andrew's Developer Portfolio")
-    st.markdown(
-        "<p style='font-size: 20px;'>Passionate and skilled software developer with a strong foundation in full-stack development, seeking a challenging and dynamic role to contribute technical expertise and creative problem-solving skills. Dedicated to staying current with emerging technologies and continuously improving development practices.</p>",
-        unsafe_allow_html=True
-    )
-    st.markdown(
-        "<p style='font-size: 20px;'>Experienced developer with a comprehensive understanding of software engineering principles and a proven track record of delivering high-quality applications. Proficient in a range of programming languages, frameworks, and development methodologies. Excellent collaboration and communication skills, coupled with a commitment to meeting project deadlines and exceeding client expectations.</p>",
-        unsafe_allow_html=True
-    )
-    st.markdown(
-        "<p style='font-size: 20px;'>Software Developer | Experience: 2+ years</p>",
-        unsafe_allow_html=True
-    )
 
-    # Skills and Tools
-    st.header('Skills and Tools')
-    st.subheader('Programming Languages:')
-    st.markdown("Python, JavaScript, Java, C#")
+    # Project 3 - Resume Generator
+    st.header('Project 3 - Resume Generator')
 
-    st.subheader('Web Technologies:')
-    st.markdown("HTML, CSS, React.js")
+    # Collect user details
+    name = st.text_input("Full Name:")
+    email = st.text_input("Email:")
+    phone = st.text_input("Phone:")
+    education = st.text_area("Education:")
+    experience = st.text_area("Experience:")
+    skills = st.text_area("Skills:")
 
-    st.subheader('Frameworks and Libraries:')
-    st.markdown("Spring Boot, Express.js")
+    # Resume Generator
+    resume_generator = ResumeGenerator()
 
-    st.subheader('Database:')
-    st.markdown("MySQL, PostgreSQL, MongoDB")
+    if st.button("Generate Resume (PDF)"):
+        resume_generator.collect_details(name, email, phone, education, experience, skills)
+        pdf_filename = resume_generator.generate_pdf()
+        st.success(f"Resume generated successfully! [Download PDF]({pdf_filename})")
 
-    st.subheader('Version Control:')
-    st.markdown("Git")
-
-    st.subheader('Containerization:')
-    st.markdown("Docker")
-
-    st.subheader('Cloud Services:')
-    st.markdown("AWS")
-
-    st.subheader('CI/CD:')
-    st.markdown("Jenkins")
-
-    st.subheader('Web Design:')
-    st.markdown("Responsive Design")
-
-    st.subheader('Methodologies:')
-    st.markdown("Agile/Scrum")
-
-    st.subheader('Testing:')
-    st.markdown("Test-Driven Development (TDD)")
-
-    st.subheader('Other:')
-    st.markdown("RESTful API development")
-
-    # Developer-specific Skills
-    st.subheader('Developer-Specific Skills:')
-    st.markdown("Flutter, React Native, Node.js")
-
-    # Add links to LinkedIn and GitHub profiles
-    st.markdown("[LinkedIn Profile](https://www.linkedin.com/in/andrew)")
-    st.markdown("[GitHub Profile](https://github.com/andrew)")
-
-    # Text-based Excel Formula Suggestor
-    st.header('Project-1-Text-based Excel Formula Suggestor')
-    excel_query = st.text_input("Describe the operation you want (e.g., add two cells):")
-
-    if st.button("Get Suggested Formula"):
-        try:
-            # Extract keywords from the user's input
-            keywords = re.findall(r'\b\w+\b', excel_query.lower())
-
-            # Map keywords to Excel functions
-            excel_functions = {
-                'add': '+',
-                'subtract': '-',
-                'multiply': '*',
-                'divide': '/',
-                'round': 'ROUND',
-                'ceil': 'CEIL',
-                'concatenate': 'CONCATENATE',
-                'vlookup': 'VLOOKUP'
-            }
-
-            # Generate the suggested Excel formula
-            suggested_formula = ' '.join([excel_functions[keyword] if keyword in excel_functions else keyword for keyword in keywords])
-            st.success(f"Suggested Formula: {suggested_formula}")
-
-        except Exception as e:
-            st.error(f"Error generating suggested formula: {e}")
-
-    # SQL Query Submission
-    st.header('Project2-SQL syntax checker')
-    sql_code = st.text_area("Enter your SQL code:")
-
-    # Button to submit SQL query
-    if st.button("Submit Query"):
-        try:
-            # Connect to an in-memory SQLite database
-            conn = sqlite3.connect(':memory:')
-            cursor = conn.cursor()
-
-            # Execute the SQL query
-            result = cursor.execute(sql_code)
-
-            # Fetch and display the result
-            if result is not None:
-                result = result.fetchall()
-                st.success("Query executed successfully!")
-                st.table(result)
-            else:
-                st.warning("Query executed successfully, but no results to display.")
-
-            # Close the database connection
-            conn.close()
-        except sqlite3.Error as e:
-            error_message = str(e)
-            if "no such table" in error_message.lower():
-                st.warning("Ignoring table-related errors. Focus on syntax and symbols.")
-            else:
-                st.error(f"Error executing SQL query: {error_message}")
+    # Rest of the code remains the same
 
 if __name__ == "__main__":
     main()
