@@ -57,7 +57,14 @@ def main():
     if st.button("Generate Resume (PDF)"):
         resume_generator.collect_details(name, email, phone, education, experience, skills)
         pdf_filepath = resume_generator.generate_pdf()
-        st.success(f"Resume generated successfully! [Download PDF]({pdf_filepath})")
+
+        # Provide a download button for the generated PDF
+        st.download_button(
+            label="Download Resume (PDF)",
+            data=open(pdf_filepath, "rb").read(),
+            file_name=f"{name}_Resume.pdf",
+            key="download_resume_button"
+        )
 
     # Rest of the code remains the same
 
