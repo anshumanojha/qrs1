@@ -1,10 +1,12 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
-import matplotlib.image as mpimg
+import io
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
 
 # Text Variables
-Header = '>>>This resume was generated entirely in Python. For the full source code, view my portfolio.'
+Header = '>>>This resume was generated entirely in Python. For full sourcecode, view my portfolio.'
 Name = 'EDDIE KIRKLAND'
 Title = 'Data Science & Analytics'
 Contact = 'Atlanta, GA\n404-XXX-XXXX\nwekrklndATgmailDOTcom\nlinkedin.com/in/ekirkland\ngithub.com/e-kirkland'
@@ -98,6 +100,30 @@ plt.annotate(ExtrasTitle, (.7, .43), weight='bold', fontsize=10, color='#ffffff'
 plt.annotate(ExtrasDesc, (.7, .345), weight='regular', fontsize=10, color='#ffffff')
 plt.annotate(CodeTitle, (.7, .2), weight='bold', fontsize=10, color='#ffffff')
 
-
 # Display the plot using Streamlit
 st.pyplot(fig)
+
+# Generate and download PDF button
+if st.button("Generate and Download PDF", key="generate-pdf-btn"):
+    # Create a PDF in-memory buffer
+    pdf_buffer = io.BytesIO()
+    pdf = canvas.Canvas(pdf_buffer, pagesize=letter)
+
+    # Add text to the PDF (similar to the annotations in the plot)
+    pdf.drawString(100, 800, Header)
+    pdf.drawString(100, 760, Name)
+    pdf.drawString(100, 730, Title)
+    # ... (Add more text to the PDF as needed)
+
+    pdf.showPage()
+    pdf.save()
+
+    # Download the generated PDF
+    st.success("PDF generated successfully. You can now view and download the PDF.")
+    st.download_button(
+        label="Download PDF",
+        key="download-pdf-btn",
+        on_click=None,  # You can add a callback function here if needed
+        args=(pdf_buffer, 'Eddie_Kirkland_Resume.pdf'),
+        help="Download the generated PDF",
+    )
