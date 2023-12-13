@@ -118,12 +118,11 @@ if st.button("Generate and Download PDF", key="generate-pdf-btn"):
     pdf.showPage()
     pdf.save()
 
-    # Download the generated PDF
-    st.success("PDF generated successfully. You can now view and download the PDF.")
-    st.download_button(
-        label="Download PDF",
-        key="download-pdf-btn",
-        on_click=None,  # You can add a callback function here if needed
-        args=(pdf_buffer, 'Eddie_Kirkland_Resume.pdf'),
-        help="Download the generated PDF",
-    )
+   st.success("PDF generated successfully. You can now view and download the PDF.")
+st.download_button(
+    label="Download PDF",
+    key="download-pdf-btn",
+    file_data=pdf_buffer.getvalue(),
+    mime="application/pdf",
+    help="Download the generated PDF",
+)
