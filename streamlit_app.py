@@ -2,6 +2,7 @@ import streamlit as st
 import sqlite3
 import re
 from reportlab.pdfgen import canvas
+import os
 
 # Resume Generator
 class ResumeGenerator:
@@ -18,9 +19,10 @@ class ResumeGenerator:
 
     def generate_pdf(self):
         pdf_filename = f"{self.details['Name']}_Resume.pdf"
+        pdf_filepath = os.path.join(os.path.dirname(__file__), pdf_filename)
 
         # Create a PDF document
-        pdf_canvas = canvas.Canvas(pdf_filename)
+        pdf_canvas = canvas.Canvas(pdf_filepath)
 
         # Add content to the PDF
         pdf_canvas.drawString(100, 800, f"Resume for {self.details['Name']}")
@@ -32,22 +34,11 @@ class ResumeGenerator:
         # Save the PDF
         pdf_canvas.save()
 
-        return pdf_filename
+        return pdf_filepath
 
 # Streamlit App
 def main():
-    # Customizing the background color to dark green
-    bg_color = '#006400'  # Dark Green
-    st.markdown(f"""
-        <style>
-            .reportview-container {{
-                background-color: {bg_color};
-                color: #FFFFFF;  /* Text color */
-            }}
-        </style>
-    """, unsafe_allow_html=True)
-
-    st.title("Andrew's Developer Portfolio")
+    # ... (previous code)
 
     # Project 3 - Resume Generator
     st.header('Project 3 - Resume Generator')
@@ -65,8 +56,8 @@ def main():
 
     if st.button("Generate Resume (PDF)"):
         resume_generator.collect_details(name, email, phone, education, experience, skills)
-        pdf_filename = resume_generator.generate_pdf()
-        st.success(f"Resume generated successfully! [Download PDF]({pdf_filename})")
+        pdf_filepath = resume_generator.generate_pdf()
+        st.success(f"Resume generated successfully! [Download PDF]({pdf_filepath})")
 
     # Rest of the code remains the same
 
