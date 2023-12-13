@@ -3,6 +3,7 @@ import sqlite3
 import re
 from reportlab.pdfgen import canvas
 import os
+import time
 
 # Resume Generator
 class ResumeGenerator:
@@ -105,12 +106,12 @@ def main():
         )
         pdf_filepath = resume_generator.generate_pdf()
 
-        # Provide a download button for the generated PDF
+        # Provide a download button for the generated PDF with a dynamic key
         st.download_button(
             label="Download Resume (PDF)",
             data=open(pdf_filepath, "rb").read(),
             file_name=f"{name}_Resume.pdf",
-            key="download_resume_button"
+            key=f"download_resume_button_{int(time.time())}"
         )
 
     # Rest of the code remains the same
