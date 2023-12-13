@@ -118,7 +118,8 @@ if st.button("Generate and Download PDF", key="generate-pdf-btn"):
     pdf.showPage()
     pdf.save()
 
-   st.success("PDF generated successfully. You can now view and download the PDF.")
+   # Download the generated PDF
+st.success("PDF generated successfully. You can now view and download the PDF.")
 st.download_button(
     label="Download PDF",
     key="download-pdf-btn",
