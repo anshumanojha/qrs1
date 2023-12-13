@@ -1,108 +1,88 @@
 import streamlit as st
 import matplotlib.pyplot as plt
-from matplotlib.offsetbox import OffsetImage, AnnotationBbox
-import matplotlib.image as mpimg
 
 # Text Variables
 Header = '>>>This resume was generated entirely in Python. For the full source code, view my portfolio.'
-Name = 'EDDIE KIRKLAND'
-Title = 'Data Science & Analytics'
-Contact = 'Atlanta, GA\n404-XXX-XXXX\nwekrklndATgmailDOTcom\nlinkedin.com/in/ekirkland\ngithub.com/e-kirkland'
+Name = 'Anshuman Ojha'
+Title = 'Finops Analyst'
+Contact = 'Bangalore\n877743144\nanshumanojha94@gmail.com\nlinkedin.com/in/anshumanojha\ngithub.com/anshumanojha'
 ProjectsHeader = 'PROJECTS/PUBLICATIONS'
-ProjectOneTitle = 'Increasing Kaggle Revenue'
-ProjectOneDesc = '- Published by Towards Data Science\n- Analyzed user survey to recommend the most profitable future revenue source\n- Cleaned/visualized data using pandas/matplotlib libraries in Python'
-ProjectTwoTitle = 'NYC School Data Cleaning & Analysis'
-ProjectTwoDesc = '- Cleaned and combined several tables using pandas library in Python\n- Used PDE and visualization to determine correlations for future study'
-ProjectThreeTitle = 'Pandas Cleaning and Visualization'
-ProjectThreeDesc = '- Cleaned data for analysis using pandas library in Python\n- Used pandas and matplotlib to explore which cars hold the most value over time'
-Portfolio = 'Portfolio: rebrand.ly/ekirkland'
-WorkHeader = 'EXPERIENCE'
-WorkOneTitle = 'Example Company / Example Position'
-WorkOneTime = '8/2013-Present'
-WorkOneDesc = '- Raised $350k in startup funds, recruited/organized launch team\n- Coordinated branding and communication strategy for organization\n- Led a team of 80 volunteer and staff leaders'
-WorkTwoTitle = 'Second Company / Second Position'
-WorkTwoTime = '2/2007-8/2013'
-WorkTwoDesc = '- Led a team of over 100 full-time and contract staff\n- Helped create branding and messaging for weekly content\n- Created/directed musical elements at weekly events for up to 10,000 people'
-WorkThreeTitle = 'Third Company / Third Position'
-WorkThreeTime = '6/2004-2/2007'
-WorkThreeDesc = '- Planned/Coordinated Toronto arena event and South Africa speaking tour\n- Oversaw research for published products'
-EduHeader = 'EDUCATION'
-EduOneTitle = 'Example University, Bachelor of Business Administration'
-EduOneTime = '2000-2004'
-EduOneDesc = '- Major: Management, Minor: Statistics'
-EduTwoTitle = 'Example University, Master of Arts'
-EduTwoTime = '2013-2017'
-SkillsHeader = 'Skills'
-SkillsDesc = '- Python\n- Panas\n- NumPy\n- Data Visualization\n- Data Cleaning\n- Command Line\n- Git and Version Control\n- SQL\n- APIs\n- Probability/Statistics\n- Data Manipulation\n- Excel'
-ExtrasTitle = 'DataQuest\nData Scientist Path'
-ExtrasDesc = 'Learned popular data science\nlanguages, data cleaning and\nmanipulation, machine learning \nand statistical analysis'
-CodeTitle = 'View Portfolio'
+ProjectOneTitle = 'Finops(Revenue&Recon Analyst) - Freo'
+ProjectOneDesc = '- MIS\n- Revenue automation\n- Partner onboarding\n- Made dashboards to check repayment\n- Day-to-day repayment recon\n- Solving payments disputes\n- Development and verification of monthly partner invoices\n- Handling Data required for partners and vendors\n- Data verification and analysis\n- Data correction'
+ProjectTwoTitle = 'Associate(Operations) - Freo'
+ProjectTwoDesc = '- Description: Add relevant details about the role'
+CertificationsHeader = 'CERTIFICATIONS'
+CertificationOneTitle = 'Data Science Certification'
+CertificationOneDesc = 'Certified by IBM in association with Coursera\nLink: [IBM Data Science Certification](https://www.coursera.org/account/accomplishments/specialization/certificate/YBQ7NCKANHJ9)'
+CertificationTwoTitle = 'Python for Data Science and AI Development'
+CertificationTwoDesc = 'Lead\nLink: [Coursera Certification](https://www.coursera.org/account/accomplishments/certificate/EYQS7XR5JQGV)'
+CertificationThreeTitle = 'Databases and SQL with Python'
+CertificationThreeDesc = 'Lead\nLink: [Coursera Certification](https://www.coursera.org/account/accomplishments/certificate/YWQBBWNA4CHX)'
+CertificationFourTitle = 'Data Visualization with Python'
+CertificationFourDesc = 'Lead\nLink: [Coursera Certification](https://www.coursera.org/account/accomplishments/certificate/PHKLT6LDUU3V)'
 
-# Set up the Streamlit app
+# Set page layout
 st.set_page_config(
-    page_title="Eddie Kirkland's Resume",
+    page_title="Anshuman Ojha's Resume",
     page_icon=":clipboard:",
     layout="wide",
 )
 
-# Set font
-plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['font.sans-serif'] = 'STIXGeneral'
+# Anshuman's Resume
+st.title("Anshuman Ojha's Resume")
 
-# Create a plot
-fig, ax = plt.subplots(figsize=(8.5, 11))
+# Personal Information
+st.header("Personal Information")
 
-# Decorative Lines
-ax.axvline(x=.5, ymin=0, ymax=1, color='#007ACC', alpha=0.0, linewidth=50)
-plt.axvline(x=.99, color='#000000', alpha=0.5, linewidth=300)
-plt.axhline(y=.88, xmin=0, xmax=1, color='#ffffff', linewidth=3)
+# Location Input
+location = st.write("Location:", "Bangalore")
 
-# Set background color
-ax.set_facecolor('white')
+# Display other personal information
+st.write(f"Name: {Name}")
+st.write("Designation: Finops Analyst")
+st.write("Contact: 877743144")
+st.write("Email: anshumanojha94@gmail.com")
 
-# Remove axes
-plt.axis('off')
+# Work Experience
+st.header("Work Experience")
 
-# Add text
-plt.annotate(Header, (.02, .98), weight='regular', fontsize=8, alpha=.6)
-plt.annotate(Name, (.02, .94), weight='bold', fontsize=20)
-plt.annotate(Title, (.02, .91), weight='regular', fontsize=14)
-plt.annotate(Contact, (.7, .906), weight='regular', fontsize=8, color='#ffffff')
-plt.annotate(ProjectsHeader, (.02, .86), weight='bold', fontsize=10, color='#58C1B2')
-plt.annotate(ProjectOneTitle, (.02, .832), weight='bold', fontsize=10)
-plt.annotate(ProjectOneDesc, (.04, .78), weight='regular', fontsize=9)
-plt.annotate(ProjectTwoTitle, (.02, .745), weight='bold', fontsize=10)
-plt.annotate(ProjectTwoDesc, (.04, .71), weight='regular', fontsize=9)
-plt.annotate(ProjectThreeTitle, (.02, .672), weight='bold', fontsize=10)
-plt.annotate(ProjectThreeDesc, (.04, .638), weight='regular', fontsize=9)
-plt.annotate(Portfolio, (.02, .6), weight='bold', fontsize=10)
-plt.annotate(WorkHeader, (.02, .54), weight='bold', fontsize=10, color='#58C1B2')
-plt.annotate(WorkOneTitle, (.02, .508), weight='bold', fontsize=10)
-plt.annotate(WorkOneTime, (.02, .493), weight='regular', fontsize=9, alpha=.6)
-plt.annotate(WorkOneDesc, (.04, .445), weight='regular', fontsize=9)
-plt.annotate(WorkTwoTitle, (.02, .4), weight='bold', fontsize=10)
-plt.annotate(WorkTwoTime, (.02, .385), weight='regular', fontsize=9, alpha=.6)
-plt.annotate(WorkTwoDesc, (.04, .337), weight='regular', fontsize=9)
-plt.annotate(WorkThreeTitle, (.02, .295), weight='bold', fontsize=10)
-plt.annotate(WorkThreeTime, (.02, .28), weight='regular', fontsize=9, alpha=.6)
-plt.annotate(WorkThreeDesc, (.04, .247), weight='regular', fontsize=9)
-plt.annotate(EduHeader, (.02, .185), weight='bold', fontsize=10, color='#58C1B2')
-plt.annotate(EduOneTitle, (.02, .155), weight='bold', fontsize=10)
-plt.annotate(EduOneTime, (.02, .14), weight='regular', fontsize=9, alpha=.6)
-plt.annotate(EduOneDesc, (.04, .125), weight='regular', fontsize=9)
-plt.annotate(EduTwoTitle, (.02, .08), weight='bold', fontsize=10)
-plt.annotate(EduTwoTime, (.02, .065), weight='regular', fontsize=9, alpha=.6)
-plt.annotate(SkillsHeader, (.7, .8), weight='bold', fontsize=10, color='#ffffff')
-plt.annotate(SkillsDesc, (.7, .56), weight='regular', fontsize=10, color='#ffffff')
-plt.annotate(ExtrasTitle, (.7, .43), weight='bold', fontsize=10, color='#ffffff')
-plt.annotate(ExtrasDesc, (.7, .345), weight='regular', fontsize=10, color='#ffffff')
-plt.annotate(CodeTitle, (.7, .2), weight='bold', fontsize=10, color='#ffffff')
+# Finops(Revenue&Recon Analyst) - Freo
+st.subheader("Finops(Revenue&Recon Analyst) - Freo")
+st.write("Duration: Dec 2020 - Present")
+st.write("Description:")
+st.write(ProjectOneDesc)
 
-# Add QR code
-arr_code = mpimg.imread('ekresumecode.png')
-imagebox = OffsetImage(arr_code, zoom=0.5)
-ab = AnnotationBbox(imagebox, (0.84, 0.12))
-ax.add_artist(ab)
+# Associate(Operations) - Freo
+st.subheader("Associate(Operations) - Freo")
+st.write("Duration: Dec 2019 - Nov 2020")
+st.write("Description:")
+st.write(ProjectTwoDesc)
 
-# Display the plot using Streamlit
-st.pyplot(fig)
+# Projects
+st.header(ProjectsHeader)
+st.subheader(ProjectOneTitle)
+st.write("Link: [GitHub - Anshuman Ojha](https://github.com/anshumanojha)")
+
+# Certifications
+st.header(CertificationsHeader)
+st.write(f"{CertificationOneTitle}: {CertificationOneDesc}")
+st.write(f"{CertificationTwoTitle}: {CertificationTwoDesc}")
+st.write(f"{CertificationThreeTitle}: {CertificationThreeDesc}")
+st.write(f"{CertificationFourTitle}: {CertificationFourDesc}")
+
+# Generate PDF button at the top-right corner
+if st.button("Generate PDF", key="generate-pdf-btn", help="Generate and download PDF"):
+    # Create a PDF object
+    pdf = plt.figure(figsize=(8.5, 11))
+    plt.axis('off')  # Turn off axis
+    plt.annotate(Header, (.02, .98), weight='regular', fontsize=8, alpha=.6)
+    plt.annotate(Name, (.02, .94), weight='bold', fontsize=20)
+    plt.annotate(Title, (.02, .91), weight='regular', fontsize=14)
+    plt.annotate(Contact, (.7, .906), weight='regular', fontsize=8, color='#ffffff')
+    plt.annotate(ProjectsHeader, (.02, .86), weight='bold', fontsize=10, color='#58C1B2')
+    plt.annotate(ProjectOneTitle, (.02, .832), weight='bold', fontsize=10)
+    plt.annotate(ProjectOneDesc, (.04, .78), weight='regular', fontsize=9)
+
+    # Save the figure as a PDF
+    pdf.savefig('Anshuman_Ojha_Resume.pdf', bbox_inches='tight')
+    st.success("PDF generated successfully. You can now view and download the PDF.")
