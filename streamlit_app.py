@@ -1,6 +1,5 @@
 import streamlit as st
 import matplotlib.pyplot as plt
-from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from io import BytesIO
 
 # Text Variables
@@ -98,9 +97,5 @@ plt.annotate(ExtrasTitle, (.7, .43), weight='bold', fontsize=10, color='#ffffff'
 plt.annotate(ExtrasDesc, (.7, .345), weight='regular', fontsize=10, color='#ffffff')
 plt.annotate(CodeTitle, (.7, .2), weight='bold', fontsize=10, color='#ffffff')
 
-# Save the figure to the buffer
-pdf_filename = "eddie_kirkland_resume.pdf"
-fig.savefig(pdf_filename, format="pdf")
-
-# Display a link to download the generated PDF
-st.success(f"PDF generated successfully. You can download the PDF [here]({pdf_filename}).")
+# Display the plot using Streamlit
+st.pyplot(fig)
