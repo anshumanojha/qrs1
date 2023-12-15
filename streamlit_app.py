@@ -4,9 +4,9 @@ from io import BytesIO
 
 # Text Variables
 Header = '>>>This resume was generated entirely in Python. For the full source code, view my portfolio.'
-Name = 'EDDIE KIRKLAND'
-Title = 'Data Science & Analytics'
-Contact = 'Atlanta, GA\n404-XXX-XXXX\nwekrklndATgmailDOTcom\nlinkedin.com/in/ekirkland\ngithub.com/e-kirkland'
+Name = 'Anshuman Ojha'
+Title = 'Finops and Revenue Analyst'
+Contact = 'Bengaluru, GA\n404-XXX-XXXX\nwekrklndATgmailDOTcom\nlinkedin.com/in/ekirkland\ngithub.com/e-kirkland'
 ProjectsHeader = 'PROJECTS/PUBLICATIONS'
 ProjectOneTitle = 'Increasing Kaggle Revenue'
 ProjectOneDesc = '- Published by Towards Data Science\n- Analyzed user survey to recommend the most profitable future revenue source\n- Cleaned/visualized data using pandas/matplotlib libraries in Python'
