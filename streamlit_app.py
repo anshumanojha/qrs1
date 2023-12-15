@@ -33,7 +33,7 @@ EduOneDesc = '- Major: Management, Minor: Statistics'
 EduTwoTitle = 'Example University, Master of Arts'
 EduTwoTime = '2013-2017'
 SkillsHeader = 'Skills'
-SkillsDesc = '- Python\n- Panas\n- NumPy\n- Data Visualization\n- Data Cleaning\n- Command Line\n- Git and Version Control\n- SQL\n- APIs\n- Probability/Statistics\n- Data Manipulation\n- Excel'
+SkillsDesc = '- Python\n- Pandas\n- NumPy\n- Data Visualization\n- Data Cleaning\n- Command Line\n- Git and Version Control\n- SQL\n- APIs\n- Probability/Statistics\n- Data Manipulation\n- Excel'
 ExtrasTitle = 'DataQuest\nData Scientist Path'
 ExtrasDesc = 'Learned popular data science\nlanguages, data cleaning and\nmanipulation, machine learning \nand statistical analysis'
 CodeTitle = 'View Portfolio'
@@ -98,24 +98,9 @@ plt.annotate(ExtrasTitle, (.7, .43), weight='bold', fontsize=10, color='#ffffff'
 plt.annotate(ExtrasDesc, (.7, .345), weight='regular', fontsize=10, color='#ffffff')
 plt.annotate(CodeTitle, (.7, .2), weight='bold', fontsize=10, color='#ffffff')
 
-# Display the plot using Streamlit
-st.pyplot(fig)
-
-# Create a BytesIO buffer for the PDF
-pdf_buffer = BytesIO()
-
 # Save the figure to the buffer
-fig.savefig(pdf_buffer, format="pdf")
+pdf_filename = "eddie_kirkland_resume.pdf"
+fig.savefig(pdf_filename, format="pdf")
 
-# Download the generated PDF
-st.success("PDF generated successfully. You can now view and download the PDF.")
-st.download_button(
-    label="Download PDF",
-    key="download-pdf-btn",
-    file_data=pdf_buffer.getvalue(),
-    mime="application/pdf",
-    help="Download the generated PDF",
-)
-
-# Close the buffer
-pdf_buffer.close()
+# Display a link to download the generated PDF
+st.success(f"PDF generated successfully. You can download the PDF [here]({pdf_filename}).")
